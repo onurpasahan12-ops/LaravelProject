@@ -11,7 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // 'admin' takma adıyla yazdığımız middleware'i sisteme kaydediyoruz
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        ]); // <--- Burada parantezi ve noktalı virgülü doğru şekilde kapattık
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

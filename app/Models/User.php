@@ -46,4 +46,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    // Bir kullanıcının birden fazla rolü olabilir (Çoka-Çok / Many-to-Many ilişkisi)
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+// Kullanıcının belirli bir role sahip olup olmadığını kontrol eder
+    public function hasRole($role): bool
+    {
+        return $this->roles()->where('name', $role)->exists();
+    }
 }
