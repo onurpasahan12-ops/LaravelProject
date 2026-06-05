@@ -1,18 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-// 1. Herkesin erişebileceği ana sayfa rotası
+// Ana Sayfa
 Route::get('/', function () {
     return view('welcome');
 });
 
-// 2. Sadece giriş yapmış (auth) VE 'admin' rolüne sahip kullanıcıların girebileceği korumalı grup
-Route::middleware(['auth', 'admin'])->group(function () {
+// GİRİŞ İŞLEMLERİ ROTALARI
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Admin Paneli Ana Sayfası (Örn: /admin/dashboard)
+// Sadece Giriş Yapmış ve Admin Olanların Rotaları
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return "Tebrikler! Admin paneline başarıyla giriş yaptınız.";
     })->name('admin.dashboard');
-
 });
