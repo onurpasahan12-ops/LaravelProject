@@ -15,7 +15,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Sadece Giriş Yapmış ve Admin Olanların Rotaları
 Route::middleware(['auth', 'admin'])->group(function () {
+
+    // Düz yazı yerine artık admin klasörünün altındaki dashboard dosyasını açıyoruz
     Route::get('/admin/dashboard', function () {
-        return "Tebrikler! Admin paneline başarıyla giriş yaptınız.";
+        return view('admin.dashboard');
     })->name('admin.dashboard');
+
 });
