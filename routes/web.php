@@ -12,7 +12,9 @@ Route::get('/', function () {
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+// KAYIT İŞLEMLERİ ROTALARI
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
 // Sadece Giriş Yapmış ve Admin Olanların Rotaları
 Route::middleware(['auth', 'admin'])->group(function () {
 
