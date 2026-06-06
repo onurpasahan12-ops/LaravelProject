@@ -8,11 +8,33 @@
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="/">E-Ticaret Mağazası</a>
+        <a class="navbar-brand" href="/">🛒 E-Ticaret Mağazası</a>
         <div class="navbar-nav ms-auto">
-            <a class="nav-link btn btn-outline-light text-white px-3" href="/login">Giriş Yap</a>
+
+            @auth
+                <span class="nav-link text-white me-3 align-self-center">
+                    👋 Hoş geldin, {{ Auth::user()->name }}
+                </span>
+
+                @if(Auth::user()->hasRole('admin'))
+                    <a class="btn btn-danger btn-sm text-white px-3 me-2 align-self-center" href="/admin/dashboard">
+                        🛡️ Yönetim Paneli
+                    </a>
+                @endif
+
+                <form action="{{ route('logout') }}" method="POST" class="d-inline align-self-center">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-outline-light px-3">Çıkış Yap</button>
+                </form>
+            @endauth
+
+            @guest
+                <a class="nav-link btn btn-outline-light text-white px-3 me-2" href="/login">Giriş Yap</a>
+                <a class="nav-link btn btn-warning text-dark px-3" href="/register">Kayıt Ol</a>
+            @endguest
+
         </div>
     </div>
 </nav>
