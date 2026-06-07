@@ -27,7 +27,7 @@
         <div class="col-md-3 mb-4">
             <div class="list-group shadow-sm">
                 <a href="#" class="list-group-item list-group-item-action active bg-danger border-danger">Anasayfa</a>
-                <a href="#" class="list-group-item list-group-item-action">Ürün Yönetimi</a>
+                <a href="/admin/products/create" class="list-group-item list-group-item-action">Ürün Yönetimi (Yeni Ürün Ekle)</a>
                 <a href="#" class="list-group-item list-group-item-action">Kategoriler</a>
                 <a href="#" class="list-group-item list-group-item-action">Siparişler</a>
                 <a href="#" class="list-group-item list-group-item-action">Kullanıcılar</a>

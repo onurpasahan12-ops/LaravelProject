@@ -15,6 +15,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // KAYIT İŞLEMLERİ ROTALARI
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
+// Ürün ekleme sayfasını gösteren rota
+Route::get('/admin/products/create', [\App\Http\Controllers\ProductController::class, 'create'])->name('products.create');
 // Sadece Giriş Yapmış ve Admin Olanların Rotaları
 Route::middleware(['auth', 'admin'])->group(function () {
 
