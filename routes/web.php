@@ -5,9 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
 
-// Ana Sayfa
+// Ana Sayfa - Ürünleri veritabanından çekip vitrine gönderir
 Route::get('/', function () {
-    return view('welcome');
+    $products = \App\Models\Product::all(); // Tüm ürünleri çekiyoruz
+    return view('welcome', compact('products')); // welcome sayfasına fırlatıyoruz
 });
 
 // GİRİŞ İŞLEMLERİ ROTALARI
