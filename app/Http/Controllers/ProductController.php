@@ -34,4 +34,16 @@ class ProductController extends Controller
         // 3. İşlem bitince admin paneline başarı mesajıyla geri gönderiyoruz
         return redirect('/admin/dashboard')->with('success', 'Ürün başarıyla eklendi!');
     }
+    // Veritabanından ürünü silen metod
+    public function destroy($id)
+    {
+        // 1. Silinmek istenen ürünü ID'sine göre buluyoruz
+        $product = Product::findOrFail($id);
+
+        // 2. Ürünü veritabanından siliyoruz
+        $product->delete();
+
+        // 3. Başarı mesajıyla birlikte admin paneline geri yönlendiriyoruz
+        return redirect('/admin/dashboard')->with('success', 'Ürün başarıyla silindi!');
+    }
 }

@@ -32,5 +32,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Formdan Gelen Ürün Verilerini Veritabanına Kaydeden POST Rota
     Route::post('/admin/products', [ProductController::class, 'store'])->name('products.store');
-
+// Ürün silme işlemini gerçekleştiren DELETE rotası
+    Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
