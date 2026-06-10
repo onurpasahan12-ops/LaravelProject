@@ -34,4 +34,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/products', [ProductController::class, 'store'])->name('products.store');
 // Ürün silme işlemini gerçekleştiren DELETE rotası
     Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+    // Ürün düzenleme sayfasını açan GET rotası
+    Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+
+    // Ürün bilgilerini güncelleyen PUT rotası
+    Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('products.update');
 });

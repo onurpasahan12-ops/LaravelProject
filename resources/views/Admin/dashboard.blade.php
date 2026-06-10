@@ -86,7 +86,7 @@
                                     </td>
                                     <td><small class="text-muted">{{ Str::limit($product->description, 35) }}</small></td>
                                     <td>
-                                        <button class="btn btn-sm btn-warning me-1">Düzenle</button>
+                                        <a href="/admin/products/{{ $product->id }}/edit" class="btn btn-sm btn-warning me-1">Düzenle</a>
                                         <form action="/admin/products/{{ $product->id }}" method="POST" class="d-inline" onsubmit="return confirm('Bu ürünü silmek istediğinize emin misiniz?')">
                                             @csrf
                                             @method('DELETE') <button type="submit" class="btn btn-sm btn-danger">Sil</button>

@@ -46,4 +46,31 @@ class ProductController extends Controller
         // 3. Başarı mesajıyla birlikte admin paneline geri yönlendiriyoruz
         return redirect('/admin/dashboard')->with('success', 'Ürün başarıyla silindi!');
     }
+    // 1. Düzenleme sayfasını (formunu) mevcut ürün bilgileriyle açan metod
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('admin.edit', compact('product'));
+    }
+
+    // 2. Formdan gelen yeni verilerle veritabanını güncelleyen metod
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'stock' => ['required', 'integer', 'min:0'],
+            'description' => ['nullable', 'string'],
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'description' => $request->description,
+        ]);
+
+        return redirect('/admin/dashboard')->with('success', 'Ürün başarıyla güncellendi!');
+    }
 }
