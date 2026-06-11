@@ -4,69 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ürünü Düzenle - Admin Paneli</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: #f8f9fa;
-        }
-        .edit-card {
-            border: none;
-            border-radius: 12px;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/viewport/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="/admin/dashboard">🛡️ CONTROL PANEL (ADMIN)</a>
-        <a href="/admin/dashboard" class="btn btn-outline-light btn-sm fw-bold">← Panele Geri Dön</a>
+        <a class="navbar-brand fw-bold" href="/admin/dashboard">🛡️ Yönetim Paneli (Admin)</a>
     </div>
 </nav>
 
-<div class="container mt-5 mb-5">
+<div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card edit-card shadow p-4 bg-white">
-                <div class="card-body">
-                    <div class="d-flex align-items-center gap-2 mb-4">
-                        <h3 class="fw-bold text-dark mb-0">📝 Ürünü Güncelle</h3>
-                    </div>
-                    <p class="text-muted small mb-4"><strong>#{{ $product->id }}</strong> ID'li ürüne ait bilgileri aşağıdan güncelleyebilirsiniz.</p>
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white py-3">
+                    <h5 class="mb-0">✏️ Ürünü Düzenle: {{ $product->name }}</h5>
+                </div>
+                <div class="card-body p-4 bg-white">
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <form action="/admin/products/{{ $product->id }}" method="POST">
                         @csrf
                         @method('PUT') <div class="mb-3">
-                            <label class="form-label fw-semibold text-secondary">Ürün Adı</label>
-                            <input type="text" name="name" class="form-control py-2 shadow-sm" value="{{ $product->name }}" required>
+                            <label for="name" class="form-label fw-bold">Ürün Adı</label>
+                            <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $product->name) }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-semibold text-secondary">Fiyat (TL)</label>
-                            <input type="number" step="0.01" name="price" class="form-control py-2 shadow-sm" value="{{ $product->price }}" required>
+                            <label for="price" class="form-label">Ürün Fiyatı (TL)</label>
+                            <input type="number" name="price" id="price" step="0.01" class="form-control" value="{{ old('price', $product->price) }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-semibold text-secondary">Stok Adedi</label>
-                            <input type="number" name="stock" class="form-control py-2 shadow-sm" value="{{ $product->stock }}" required>
+                            <label for="stock" class="form-label">Stok Adedi</label>
+                            <input type="number" name="stock" id="stock" class="form-control" value="{{ old('stock', $product->stock) }}" required>
                         </div>
 
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold text-secondary">Ürün Açıklaması</label>
-                            <textarea name="description" rows="4" class="form-control shadow-sm">{{ $product->description }}</textarea>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Ürün Açıklaması</label>
+                            <textarea name="description" id="description" rows="4" class="form-control">{{ old('description', $product->description) }}</textarea>
                         </div>
 
-                        <div class="d-flex gap-2">
-                            <a href="/admin/dashboard" class="btn btn-light w-50 fw-bold py-2 border">İptal Et</a>
-                            <button type="submit" class="btn btn-warning w-50 fw-bold py-2 shadow-sm text-dark">🔄 Değişiklikleri Kaydet</button>
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a href="/admin/dashboard" class="btn btn-secondary">İptal Et</a>
+                            <button type="submit" class="btn btn-warning px-4 fw-bold">Değişiklikleri Kaydet</button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
