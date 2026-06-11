@@ -51,6 +51,17 @@
                             <label class="form-label fw-semibold text-secondary">Ürün Adı</label>
                             <input type="text" name="name" class="form-control py-2 shadow-sm" required placeholder="Örn: Kablosuz Kulaklık">
                         </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-secondary">Ürün Kategorisi</label>
+                            <select name="category_id" class="form-select py-2 shadow-sm">
+                                <option value="">Kategori Seçiniz (Opsiyonel)</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label fw-semibold text-secondary">Fiyat (TL)</label>
                             <input type="number" step="0.01" name="price" class="form-control py-2 shadow-sm" required placeholder="0.00">
@@ -80,6 +91,7 @@
                         <tr>
                             <th class="py-3">ID</th>
                             <th class="py-3 text-start">Ürün Adı</th>
+                            <th class="py-3">Kategori</th>
                             <th class="py-3">Fiyat</th>
                             <th class="py-3">Stok</th>
                             <th class="py-3">İşlemler</th>
@@ -90,6 +102,15 @@
                             <tr>
                                 <td class="fw-bold text-secondary">#{{ $product->id }}</td>
                                 <td class="text-start fw-semibold text-dark">{{ $product->name }}</td>
+
+                                <td>
+                                    @if($product->category)
+                                        <span class="badge bg-info text-dark fw-bold">{{ $product->category->name }}</span>
+                                    @else
+                                        <span class="text-muted small">Kategorisiz</span>
+                                    @endif
+                                </td>
+
                                 <td class="text-primary fw-bold">{{ number_format($product->price, 2) }} TL</td>
                                 <td>
                                     @if($product->stock > 0)
@@ -111,7 +132,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="py-5 text-muted">Henüz hiç ürün eklenmemiş. Soldaki formdan ilk ürünü ekleyebilirsiniz!</td>
+                                <td colspan="6" class="py-5 text-muted">Henüz hiç ürün eklenmemiş. Soldaki formdan ilk ürünü ekleyebilirsiniz!</td>
                             </tr>
                         @endforelse
                         </tbody>
@@ -120,6 +141,50 @@
             </div>
         </div>
     </div>
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-dark text-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">📦 Mağazaya Gelen Son Siparişler</h5>
+                        <span class="badge bg-warning text-dark fw-bold">Canlı Takip</span>
+                    </div>
+                    <div class="card-body p-0 bg-white table-responsive">
+                        <table class="table table-hover align-middle mb-0 text-center">
+                            <thead class="table-light">
+                            <tr>
+                                <th class="py-3">Sipariş No</th>
+                                <th class="py-3 text-start">Müşteri Adı</th>
+                                <th class="py-3 text-start">Satın Alınan Ürünler</th>
+                                <th class="py-3">Durum</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if(isset($latestOrder))
+                                <tr>
+                                    <td class="fw-bold text-danger">{{ $latestOrder['order_number'] }}</td>
+                                    <td class="text-start fw-semibold">{{ $latestOrder['customer'] }}</td>
+                                    <td class="text-start">
+                                        <ul class="list-unstyled mb-0 small">
+                                            @foreach($latestOrder['items'] as $item)
+                                                <li>• {{ $item['name'] }} <span class="text-muted">({{ $item['quantity'] }} Adet)</span></li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success rounded-pill px-3 py-2">Hazırlanıyor</span>
+                                    </td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td colspan="4" class="py-5 text-muted">Henüz sisteme düşen yeni bir sipariş bulunmuyor.</td>
+                                </tr>
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -11,4 +11,8 @@ class Category extends Model
 
     // 🌟 SİHİRLİ SATIR: Hangi alanların formdan topluca yüklenebileceğini izin veriyoruz
     protected $fillable = ['name', 'slug'];
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

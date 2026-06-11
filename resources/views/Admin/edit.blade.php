@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ürünü Düzenle - Admin Paneli</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/viewport/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
@@ -14,7 +14,7 @@
     </div>
 </nav>
 
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm border-0">
@@ -35,23 +35,37 @@
 
                     <form action="/admin/products/{{ $product->id }}" method="POST">
                         @csrf
-                        @method('PUT') <div class="mb-3">
+                        @method('PUT')
+
+                        <div class="mb-3">
                             <label for="name" class="form-label fw-bold">Ürün Adı</label>
                             <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $product->name) }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="price" class="form-label">Ürün Fiyatı (TL)</label>
+                            <label for="category_id" class="form-label fw-bold">Ürün Kategorisi</label>
+                            <select name="category_id" id="category_id" class="form-select">
+                                <option value="">Kategori Seçiniz (Opsiyonel)</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="price" class="form-label fw-bold">Ürün Fiyatı (TL)</label>
                             <input type="number" name="price" id="price" step="0.01" class="form-control" value="{{ old('price', $product->price) }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="stock" class="form-label">Stok Adedi</label>
+                            <label for="stock" class="form-label fw-bold">Stok Adedi</label>
                             <input type="number" name="stock" id="stock" class="form-control" value="{{ old('stock', $product->stock) }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="description" class="form-label">Ürün Açıklaması</label>
+                            <label for="description" class="form-label fw-bold">Ürün Açıklaması</label>
                             <textarea name="description" id="description" rows="4" class="form-control">{{ old('description', $product->description) }}</textarea>
                         </div>
 
@@ -66,6 +80,3 @@
         </div>
     </div>
 </div>
-
-</body>
-</html>

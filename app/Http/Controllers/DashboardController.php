@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Veritabanındaki ürünleri çekip arayüze gönderiyoruz
         $products = Product::all();
-        return view('admin.dashboard', compact('products'));
+        $categories = Category::all();
+
+        // 🌟 SİPARİŞ ENTEGRASYONU: Kullanıcıların verdiği son siparişi hafızadan çekiyoruz
+        // Sunumda her yeni sipariş verildiğinde bu liste güncellenecek
+        $latestOrder = session()->get('completed_order');
+
+        return view('admin.dashboard', compact('products', 'categories', 'latestOrder'));
     }
 }

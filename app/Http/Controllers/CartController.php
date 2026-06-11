@@ -65,25 +65,51 @@ class CartController extends Controller
     }
 
     // Siparişi Alır, Sepeti Boşaltır ve Başarılı Sayfasına Gönderir
+    // Siparişi Alır, Stokları Düşer, Sepeti Boşaltır
     public function placeOrder(Request $request)
     {
-        // Basit bir adres formu doğrulaması
+        // Form doğrulama
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string',
             'phone' => 'required|string'
         ]);
 
-        // Sunumda hocaya göstermek için sipariş özetini session'da geçici tutalım
+        $cart = session()->get('cart', []);
+
+        // Eğer sepet boşsa işleme devam etmesin
+        if (empty($cart)) {
+            return redirect('/cart')->with('error', 'Sepetiniz boş!');
+        }
+
+        // 🌟 SİHİRLİ DOKUNUŞ: Sepetteki her ürün için veritabanında stok düşüyoruz
+        foreach ($cart as $id => $details) {
+            // Veritabanından ilgili ürünü buluyoruz
+            $product = \App\Models\Product::find($id);
+
+            if ($product) {
+                // Eğer mevcut stok, istenen adetten azsa negatif stoğa düşmesin diye koruma
+                if ($product->stock >= $details['quantity']) {
+                    $product->stock = $product->stock - $details['quantity'];
+                } else {
+                    // Stok yetersiz kalırsa sıfıra eşitliyoruz
+                    $product->stock = 0;
+                }
+
+                $product->save(); // Yeni stoğu veritabanına kaydet!
+            }
+        }
+
+        // Sunum özeti için sipariş bilgilerini session'a alıyoruz
         $completedOrder = [
             'customer' => $request->name,
-            'items' => session()->get('cart', []),
+            'items' => $cart,
             'order_number' => 'ORD-' . rand(100000, 999999)
         ];
 
         session()->put('completed_order', $completedOrder);
 
-        // Sipariş tamamlandığı için sepeti tamamen temizliyoruz!
+        // Sepeti tamamen boşaltıyoruz
         session()->forget('cart');
 
         return view('cart.success');
