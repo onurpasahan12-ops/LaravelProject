@@ -72,9 +72,9 @@
                     <span>Genel Toplam:</span>
                     <strong class="text-success">{{ number_format($total, 2) }} TL</strong>
                 </div>
-                <button class="btn btn-success w-100 fw-bold py-2 shadow-sm" {{ count($cart) == 0 ? 'disabled' : '' }}>
+                <a href="/checkout" class="btn btn-success w-100 fw-bold py-2 shadow-sm {{ empty($cart) ? 'disabled' : '' }}">
                     💳 Alışverişi Tamamla (Ödeme Yap)
-                </button>
+                </a>
             </div>
         </div>
     </div>

@@ -51,4 +51,41 @@ class CartController extends Controller
         // back() yerine direkt sepet sayfasına yönlendiriyoruz
         return redirect('/cart')->with('success', 'Ürün sepetten çıkarıldı!');
     }
+    // Kullanıcıyı Ödeme ve Adres Formu Sayfasına Gönderir
+    public function checkout()
+    {
+        $cart = session()->get('cart', []);
+
+        // Eğer sepet boşsa ödeme sayfasına gitmesin, geri fırlatsın
+        if(empty($cart)) {
+            return redirect('/cart')->with('error', 'Sepetiniz boş olduğu için ödeme yapılamaz!');
+        }
+
+        return view('cart.checkout', compact('cart'));
+    }
+
+    // Siparişi Alır, Sepeti Boşaltır ve Başarılı Sayfasına Gönderir
+    public function placeOrder(Request $request)
+    {
+        // Basit bir adres formu doğrulaması
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string',
+            'phone' => 'required|string'
+        ]);
+
+        // Sunumda hocaya göstermek için sipariş özetini session'da geçici tutalım
+        $completedOrder = [
+            'customer' => $request->name,
+            'items' => session()->get('cart', []),
+            'order_number' => 'ORD-' . rand(100000, 999999)
+        ];
+
+        session()->put('completed_order', $completedOrder);
+
+        // Sipariş tamamlandığı için sepeti tamamen temizliyoruz!
+        session()->forget('cart');
+
+        return view('cart.success');
+    }
 }

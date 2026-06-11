@@ -50,3 +50,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::get('/cart', [CartController::class, 'index']);
 Route::post('/cart/add/{id}', [CartController::class, 'add']);
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove']);
+// routes/web.php en alt kısım:
+Route::get('/cart', [CartController::class, 'index']);
+Route::post('/cart/add/{id}', [CartController::class, 'add']);
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove']);
+
+// YENİ EKLENEN SİPARİŞ ROTALARI
+Route::get('/checkout', [CartController::class, 'checkout']);
+Route::post('/order/place', [CartController::class, 'placeOrder']);
