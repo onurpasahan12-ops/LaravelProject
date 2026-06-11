@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 
 // Ana Sayfa - Ürünleri veritabanından çekip vitrine gönderir
 Route::get('/', function () {
@@ -42,7 +43,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Ürün bilgilerini güncelleyen PUT rotası
     Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('products.update');
-
+    Route::get('/admin/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/admin/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/admin/categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::delete('/admin/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 }); // <--- ADMIN GRUBU BURADA TERTEMİZ KAPANDI!
 
 

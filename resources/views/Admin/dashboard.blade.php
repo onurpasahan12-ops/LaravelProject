@@ -11,7 +11,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-bold" href="/admin/dashboard">🛡️ CONTROL PANEL (ADMIN)</a>
-        <a href="/" class="btn btn-outline-light btn-sm fw-bold">🛒 Mağazaya Dön</a>
+        <div class="d-flex gap-2">
+            <a href="/admin/categories" class="btn btn-warning btn-sm fw-bold text-dark">📁 Kategorileri Yönet</a>
+            <a href="/" class="btn btn-outline-light btn-sm fw-bold">🛒 Mağazaya Dön</a>
+        </div>
     </div>
 </nav>
 
@@ -22,6 +25,18 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm border-0 bg-white p-3 d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-0 fw-bold text-dark">📁 Kategori Sistemi Aktif</h5>
+                    <small class="text-muted">Ürünleri gruplandırmak için önce kategori ekleyin.</small>
+                </div>
+                <a href="/admin/categories" class="btn btn-primary fw-bold px-4">Kategori Yönetim Sayfası →</a>
+            </div>
+        </div>
+    </div>
 
     <div class="row g-4">
         <div class="col-lg-4">
