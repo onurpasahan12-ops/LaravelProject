@@ -39,4 +39,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // Ürün bilgilerini güncelleyen PUT rotası
     Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('products.update');
+use App\Http\Controllers\CartController;
+
+// Sepet Rotaları
+    Route::get('/cart', [CartController::class, 'index']);
+    Route::post('/cart/add/{id}', [CartController::class, 'add']);
+    Route::delete('/cart/remove/{id}', [CartController::class, 'remove']);
 });

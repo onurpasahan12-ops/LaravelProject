@@ -17,7 +17,7 @@
     <div class="container">
         <a class="navbar-brand fw-bold fs-4" href="/">🛒 E-STORE</a>
         <div class="d-flex align-items-center gap-3">
-            @auth
+            @auth <a href="/cart" class="btn btn-success btn-sm fw-bold shadow-sm me-2">🛒 Sepetim ({{ count(session('cart', [])) }})</a>
                 <span class="text-light me-2">👋 Hoş geldin, <strong>{{ Auth::user()->name }}</strong></span>
                 @if(Auth::user()->role === 'admin')
                     <a href="/admin/dashboard" class="btn btn-danger btn-sm fw-bold shadow-sm">🛡️ Yönetim Paneli</a>
@@ -63,7 +63,12 @@
                         </div>
                     </div>
                     <div class="card-footer bg-white border-top-0 p-4 pt-0">
-                        <button class="btn btn-primary w-100 fw-bold py-2 shadow-sm" {{ $product->stock == 0 ? 'disabled' : '' }}>
+                        <form action="/cart/add/{{ $product->id }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm" {{ $product->stock == 0 ? 'disabled' : '' }}>
+                                {{ $product->stock == 0 ? 'Stok Yok' : 'Sepete Ekle' }}
+                            </button>
+                        </form>
                             {{ $product->stock == 0 ? 'Stok Yok' : 'Sepete Ekle' }}
                         </button>
                     </div>
