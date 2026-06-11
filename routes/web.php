@@ -4,11 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CartController;
 
 // Ana Sayfa - Ürünleri veritabanından çekip vitrine gönderir
 Route::get('/', function () {
-    $products = \App\Models\Product::all(); // Tüm ürünleri çekiyoruz
-    return view('welcome', compact('products')); // welcome sayfasına fırlatıyoruz
+    $products = \App\Models\Product::all();
+    return view('welcome', compact('products'));
 });
 
 // GİRİŞ İŞLEMLERİ ROTALARI
@@ -24,25 +25,28 @@ Route::post('/register', [AuthController::class, 'register']);
 // 🔐 SADECE GİRİŞ YAPMIŞ VE ADMIN OLANLARIN ERİŞEBİLECEĞİ GÜVENLİ ALAN
 Route::middleware(['auth', 'admin'])->group(function () {
 
-    // Admin Panel Ana Sayfası (DashboardController'a bağladık ki veritabanından ürünleri çeksin)
+    // Admin Panel Ana Sayfası
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-    // Ürün Ekleme Sayfasını Gösteren Rota (Form Sayfası)
+    // Ürün Ekleme Sayfasını Gösteren Rota
     Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
 
     // Formdan Gelen Ürün Verilerini Veritabanına Kaydeden POST Rota
     Route::post('/admin/products', [ProductController::class, 'store'])->name('products.store');
-// Ürün silme işlemini gerçekleştiren DELETE rotası
+
+    // Ürün silme işlemini gerçekleştiren DELETE rotası
     Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+
     // Ürün düzenleme sayfasını açan GET rotası
     Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
 
     // Ürün bilgilerini güncelleyen PUT rotası
     Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('products.update');
-use App\Http\Controllers\CartController;
 
-// Sepet Rotaları
-    Route::get('/cart', [CartController::class, 'index']);
-    Route::post('/cart/add/{id}', [CartController::class, 'add']);
-    Route::delete('/cart/remove/{id}', [CartController::class, 'remove']);
-});
+}); // <--- ADMIN GRUBU BURADA TERTEMİZ KAPANDI!
+
+
+// 🛒 SEPET ROTALARI - HERKESE AÇIK, ÖZGÜR VE EN ALTTA
+Route::get('/cart', [CartController::class, 'index']);
+Route::post('/cart/add/{id}', [CartController::class, 'add']);
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove']);

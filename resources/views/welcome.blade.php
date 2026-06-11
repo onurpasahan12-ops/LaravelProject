@@ -64,8 +64,7 @@
                     </div>
                     <div class="card-footer bg-white border-top-0 p-4 pt-0">
                         <form action="/cart/add/{{ $product->id }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm" {{ $product->stock == 0 ? 'disabled' : '' }}>
+                           @csrf <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm" {{ $product->stock == 0 ? 'disabled' : '' }}>
                                 {{ $product->stock == 0 ? 'Stok Yok' : 'Sepete Ekle' }}
                             </button>
                         </form>
