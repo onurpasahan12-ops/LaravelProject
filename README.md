@@ -18,3 +18,6 @@ Follow the steps below to set up the database structure and seed the test users 
 Open your terminal in the project root directory and run the following command to install the required PHP packages:
 ```bash
 composer install
+
+admin mail :admin@mysite.com
+admin password :password
